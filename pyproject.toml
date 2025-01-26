@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-yfinance = "^0.2.52"
+websockets = "^14.2"
 
 
 [build-system]
