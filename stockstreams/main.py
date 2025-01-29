@@ -1,25 +1,24 @@
 import asyncio
-from websockets.asyncio.client import connect
-from websockets import exceptions
 import json
 
+from websockets import exceptions
+from websockets.asyncio.client import connect
 
 BASE_URL = "wss://fstream.binance.com"
 ENDPOINT = "ws/bnbusdt@aggTrade"
 
 
-async def hello():
+async def listen() -> None:
     url = f"{BASE_URL}/{ENDPOINT}"
     async with connect(url) as websocket:
         print("Connected to Binance WebSocket!")
 
         try:
             while True:
-                message = await websocket.recv()  # Receive messages from the WebSocket
+                message = await websocket.recv()
                 data = json.loads(message)
-                # Extract relevant data from the message
-                price = data["p"]  # 'p' is the price field for aggTrade
-                quantity = data["q"]  # 'q' is the quantity field for aggTrade
+                price = data["p"]
+                quantity = data["q"]
                 print(f"Price: {price}, Quantity: {quantity}")
 
         except exceptions.ConnectionClosed as e:
@@ -27,4 +26,4 @@ async def hello():
 
 
 if __name__ == "__main__":
-    asyncio.run(hello())
+    asyncio.run(listen())
